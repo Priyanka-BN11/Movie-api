@@ -5,7 +5,7 @@ const app = express();
 app.use(morgan('common'));
 
 //movies name 
-let topBooks = [
+let movies = [
     {
       name: 'The Shawshank Redemption',
       director: 'Frank Darabont'
