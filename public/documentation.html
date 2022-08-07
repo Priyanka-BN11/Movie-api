@@ -6,5 +6,205 @@
     <body>
         <h1>Documentation</h1>
         <p>Movie app returns a list of all movies to the user.It also provide information about movie description, genre, director, image URL. To get all the movie information user has to register to the movie app. </p>
+        <div class="adding_users">
+            <h2>Adding Users</h2>
+            <h3 class="url"> /users</h3>
+            <h4>Method Type: POST</h4>
+            <p><strong>Description:</strong>This endpoint allows users to register. Endpoint returns a JSON object with few key values. For key "name" it returns string,for "favorite movies" array, and for an "id" string.</p>
+            <p><strong>Query Parameters:</strong> None</p>
+            <p><strong>Expected request data:</strong> JSON object with data about user. <span class="required">Required</span>: "name"</p>
+            <h4>Example:</h4>
+            <code class="code">
+                {<br>
+                      "Name": "Mark",<br>
+                }
+            </code>
+            <p><strong>Expected response data:</strong> JSON object with data about user which includes automatic generated ID</p>
+                <h4>Example:</h4>
+                  <code class="code">
+                    {<br>
+                      "Name": "Mark",<br>
+                      "favorite movies": [],<br>
+                      "id": "8a757bb9-2eec-46bf-86f0-443ff742cf3a"<br>
+                    }
+                  </code>
+            <p><strong>Response status codes:</strong></p>
+                <p>201: Created- New user has been added</p>
+                <p>400: Bad request- User already exists</p>
+          </div>
+        
+          <br>
+          <br>
+        
+          <div class="updating_users">
+            <h2>Updating Usernames</h2>
+            <h3 class="url"> /users/:id</h3>
+            <h4>Method Type: POST</h4>
+            <p><strong>Description:</strong> This endpoint allows users to update their username. Endpoint returns a JSON object with few key values. For key "name" it returns string, for "favorite movies" array, and for an "id" integer.</p>
+            <p><strong>Query Parameters:</strong> :id,</p>
+            <p><strong>Expected request data:</strong> JSON object with data about user.
+            <p><strong>Required</strong>: :id</p>
+                <h4>Example:</h4>
+                <p>localhost:8080/users/1</p><br>
+                <code class="code">
+                  {<br>
+                    "Username": "newUsername"<br>
+                  }
+                </code>
+              <p><strong>Expected response data:</strong> JSON object with data about user which includes,"id" with integer value, "Name", and "favorite movies" with an array.</p>
+                <h4>Example:</h4>
+                <code class="code">
+                  {<br>
+                    "Name": "Joe",<br>
+                    "favoriteMovies": []<br>
+                    "id": 8a757bb9-2eec-46bf-86f0-443ff742cf3a,<br>
+                  }
+                </code>
+            <p><strong>Response status codes:</strong></p>
+                <p>200: OK- New user has been added</p>
+                <p>500: Internal server error- Something went wrong</p>
+          </div>
+          <br>
+          <br>
+        
+          <div class="add_movie_to_faves">
+            <h2>Adding a Movie to Favorites</h2>
+            <h3 class="url"> /users/:id/movieTitle</h3>
+            <h4>Method Type: POST</h4>
+            <p><strong>Description:</strong>This endpoint allows users to add movie to their favorite list.Endpoint returns an JSON object with users data including updated favorite movies array.</p>
+            <p><strong>Query Parameters:</strong> :id, :movieTitle</p>
+            <p><strong>Expected request data:</strong> Required: :id, :movieTitle</p>
+                <h4>Example:</h4>
+                <p>localhost:8080/users/1/movies/Joker</p>
+            <p><strong>Expected response data:</strong> JSON object with updated list of movies in Favorite Movies array.</p>
+                <code class="code">
+                  {
+                      Joker has been added to Joe's array
+                  }
+                </code>
+            <p><strong>Response status codes:</strong></p>
+                <p>200: OK- Updated users array list</p>
+                <p>500: Internal server error- Something went wrong</p>
+          </div>
+        
+          <br>
+          <br>
+        
+          <div class="get_movies">
+            <h2>Get Movie List</h2>
+            <h3 class="url"> /movies</h3>
+            <h4>Method Type: GET</h4>
+            <p><strong>Description:</strong> This endpoint allows users to get whole list of movies. Endpoint returns an array with list of objects. Each object contains data about movies.</p>
+            <p><strong>Query Parameters:</strong> None</p>
+            <p><strong>Expected request data:</strong>Required: /movies</p>
+                <h4>Example:</h4>
+                <p>localhost:8080/movies</p>
+            <p><strong>Expected response data:</strong> An array with list of movies. Each object contains data about movies. Every key is described with value of a string.</p>
+                <h4>Example:</h4>
+                <code class="code">
+                  [<br>
+                    {<br>
+                      "Title":"Batman Begins",<br>
+                      "Description":"After training with his mentor, Batman begins his fight to free crime-ridden Gotham City from corruption.", <br>
+                      "Genre": { <br>
+                        "Name":"Action/Crime/Drama",<br>
+                        
+                      }, <br>
+                      "Director": { <br>
+                      "Name":"Christopher Nolan", <br>
+                      "Bio":"Best known for his cerebral, often nonlinear, storytelling, acclaimed writer-director Christopher Nolan was born on July 30, 1970, in London, England. Over the course of 15 years of filmmaking, Nolan has gone from low-budget independent films to working on some of the biggest blockbusters ever made.At 7 years old, Nolan began making short movies with his father's Super-8 camera. While studying English Literature at University College London, he shot 16-millimeter films at U.C.L.'s film society, where he learned the guerrilla techniques he would later use to make his first feature, Following (1998), on a budget of around $6,000.",<br>
+                      "Born":"July 30, 1970"
+                      }, <br>
+                      "ImageUrl": "https://m.media-amazon.com/images/M/MV5BNjE3NDQyOTYyMV5BMl5BanBnXkFtZTcwODcyODU2Mw@@._V1_UY317_CR7,0,214,317_AL_.jpg"
+                        <br>
+                    },
+                </code>
+            <p><strong>Response status codes:</strong></p>
+                <p>200: OK</p>
+                <p>500: Internal server error- Something went wrong</p>
+          </div>
+        
+          <br>
+          <br>
+        
+          <div class="search_movies">
+            <h2>Search Movies by Title</h2>
+            <h3 class="url"> /movies/:movieTitle</h3>
+            <h4> Method Type: GET</h4>
+            <p><strong>Description:</strong> This endpoint allows users to search a movie by title. Endpoint returns an object with data about specific movie.</p>
+            <p><strong>Query Parameters:</strong> :movieTitle</p>
+            <p><strong>Expected request data:</strong> Required: :movieTitle</p>
+                <h4>Example:</h4>
+                <p>localhost:8080/movies/Joker</p>
+            <p><strong>Expected response data:</strong> An object containing data about specific movie. Every key is described with value of a string.</p>
+                <h4>Example:</h4>
+                <code class="code">
+                  { <br>
+                    "Title": "Joker",<br>
+                    "Description": "A mentally troubled stand-up comedian embarks on a downward spiral that leads to the creation of an iconic villain.",<br>
+                    "Genre": {
+                        "Name": "Crime/Drama/Thriller"
+                    },<br>
+                    "Director": {
+                        "Name": "Todd Phillips",<br>
+                        "Bio": "Todd Phillips is an American filmmaker and actor who got his start by directing the comedy films Road Trip and Old School, the earlier inspired EuroTrip. He also directed Starsky & Hutch, The Hangover trilogy, Due Date, War Dogs and School for Scoundrels. Phillips directed Joker, a Taxi Driver style film set in the universe of Batman and starring Joaquin Phoenix. Joker is the highest grossing R-rated film of all time.",<br>
+                        "Born": "December 20, 1970"<br>
+                  }, <br>
+                </code>
+            <p><strong>Response status codes:</strong></p>
+                <p>201: OK- JSON object</p>
+                <p>500: Internal server error- Something went wrong</p>
+          </div>
+        
+          <br>
+          <br>
+        
+          <div class="find_genre">
+            <h2>Get a Genre</h2>
+            <h3 class="url"> /movies/genre/:genreName</h3>
+            <h4> Method Type: GET</h4>
+            <p><strong>Description:</strong> This endpoint allows users to search for a genre. Endpoint returns an object with data about specific genre.</p>
+            <p><strong>Query Parameters:</strong> :genreName</p>
+            <p><strong>Expected request data:</strong> Required: :genreName</p>
+                <h4>Example:</h4>
+                <p>localhost:8080/movies/genre/Comedy</p>
+            <p><strong>Expected response data:</strong> An object containing data about specific genre. Every key is described with value of a string.</p>
+                <h4>Example:</h4>
+                <code class="code">
+                  { <br>
+                    "Name":"Drama"<br>
+                  },
+                </code>
+            <p><strong>Response status codes:</strong></p>
+                <p>200: OK- JSON object</p>
+                <p>400: Bad request- Genre not found!</p>
+                <p>500: Internal server error- Something went wrong</p>
+          </div>
+        
+        <br>
+        <br>
+        
+        <div class="get_director">
+          <h2> Find a Director</h2>
+          <h3 class="url"> /movies/directors/:directorName</h3>
+          <h4> Method Type: GET </h4>
+          <p><strong>Description:</strong> This endpoint allows users to search for a specific directors.Endpoint returns an object with data about specific director.</p>
+          <p><strong>Query Parameters:</strong> :directorName</p>
+          <p><strong>Expected request data:</strong> Required: :directorName</p>
+              <h4>Example:</h4>
+              <p>localhost:8080/movies/directors/Christopher%20Nolan</p>
+          <p><strong>Expected response data:</strong> An object containing data about specific director. Every key is described with value of a string.</p>
+              <h4>Example:</h4>
+              <code class="code">
+                {<br>
+                  "Name":"Christopher Nolan", <br>
+                  "Bio": "Best known for his cerebral, often nonlinear, storytelling, acclaimed writer-director Christopher Nolan was born on July 30, 1970, in London, England. Over the course of 15 years of filmmaking, Nolan has gone from low-budget independent films to working on some of the biggest blockbusters ever made.At 7 years old, Nolan began making short movies with his father's Super-8 camera. While studying English Literature at University College London, he shot 16-millimeter films at U.C.L.'s film society, where he learned the guerrilla techniques he would later use to make his first feature, Following (1998), on a budget of around $6,000.",<br>
+                  "Born": "July 30, 1970"   <br>             },
+              </code>
+          <p><strong>Response status codes:</strong></p>
+              <p>200: OK- JSON object</p>
+              <p>400: Bad request- Director not found!</p>
+              <p>500: Internal server error- Something went wrong</p>
+        </div>
     </body>
 </html>
