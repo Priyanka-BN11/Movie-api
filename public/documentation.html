@@ -24,6 +24,8 @@
                   <code class="code">
                     {<br>
                       "Name": "Mark",<br>
+                      "Email": "mark@gmail.com," <br>
+                      "Password": "mark123," <br>
                       "favorite movies": [],<br>
                       "id": "8a757bb9-2eec-46bf-86f0-443ff742cf3a"<br>
                     }
@@ -48,15 +50,19 @@
                 <p>localhost:8080/users/1</p><br>
                 <code class="code">
                   {<br>
-                    "Username": "newUsername"<br>
+                    "Username": "Jsmith"<br>
                   }
                 </code>
               <p><strong>Expected response data:</strong> JSON object with data about user which includes,"id" with integer value, "Name", and "favorite movies" with an array.</p>
                 <h4>Example:</h4>
                 <code class="code">
                   {<br>
-                    "Name": "Joe",<br>
-                    "favoriteMovies": []<br>
+                    "Name": "Joe Smith",<br>
+                    "Email": "joe@gmail.com," <br>
+                    "Password": "142563," <br>
+                    "favoriteMovies": [],<br>
+                    "Birthday":"1985-02-19"<br>
+
                     "id": 8a757bb9-2eec-46bf-86f0-443ff742cf3a,<br>
                   }
                 </code>
@@ -108,15 +114,16 @@
                       "Description":"After training with his mentor, Batman begins his fight to free crime-ridden Gotham City from corruption.", <br>
                       "Genre": { <br>
                         "Name":"Action/Crime/Drama",<br>
-                        
+                        "Description":"Action film is a film genre in which the protagonist is thrust into a series of events that typically involve violence and physical feats.Films of this genre generally involve various aspects of crime and its detention with a drama."
                       }, <br>
                       "Director": { <br>
                       "Name":"Christopher Nolan", <br>
                       "Bio":"Best known for his cerebral, often nonlinear, storytelling, acclaimed writer-director Christopher Nolan was born on July 30, 1970, in London, England. Over the course of 15 years of filmmaking, Nolan has gone from low-budget independent films to working on some of the biggest blockbusters ever made.At 7 years old, Nolan began making short movies with his father's Super-8 camera. While studying English Literature at University College London, he shot 16-millimeter films at U.C.L.'s film society, where he learned the guerrilla techniques he would later use to make his first feature, Following (1998), on a budget of around $6,000.",<br>
                       "Born":"July 30, 1970"
                       }, <br>
-                      "ImageUrl": "https://m.media-amazon.com/images/M/MV5BNjE3NDQyOTYyMV5BMl5BanBnXkFtZTcwODcyODU2Mw@@._V1_UY317_CR7,0,214,317_AL_.jpg"
-                        <br>
+                      "ImagePath": "https://m.media-amazon.com/images/M/MV5BNjE3NDQyOTYyMV5BMl5BanBnXkFtZTcwODcyODU2Mw@@._V1_UY317_CR7,0,214,317_AL_.jpg",
+                      <br>
+                      "Featured":true<br>
                     },
                 </code>
             <p><strong>Response status codes:</strong></p>
@@ -143,13 +150,17 @@
                     "Title": "Joker",<br>
                     "Description": "A mentally troubled stand-up comedian embarks on a downward spiral that leads to the creation of an iconic villain.",<br>
                     "Genre": {
-                        "Name": "Crime/Drama/Thriller"
-                    },<br>
+                        "Name": "Crime/Drama/Thriller",
+                        "Description":"Films of this genre generally involve various aspects of crime and its detention and drama.Thriller film, also known as suspense film or suspense thriller, is a broad film genre that involves excitement and suspense in the audience.",
+
+                      },<br>
                     "Director": {
                         "Name": "Todd Phillips",<br>
                         "Bio": "Todd Phillips is an American filmmaker and actor who got his start by directing the comedy films Road Trip and Old School, the earlier inspired EuroTrip. He also directed Starsky & Hutch, The Hangover trilogy, Due Date, War Dogs and School for Scoundrels. Phillips directed Joker, a Taxi Driver style film set in the universe of Batman and starring Joaquin Phoenix. Joker is the highest grossing R-rated film of all time.",<br>
                         "Born": "December 20, 1970"<br>
                   }, <br>
+                  "ImagePath": "https://m.media-amazon.com/images/M/MV5BNGY5MWRjM2MtNDkzNC00MDcwLWE2ZjYtOWNlZmM3MWIyNGZmXkEyXkFqcGdeQXVyMTAxMjM5NTA4._V1_UY317_CR131,0,214,317_AL_.jpg",<br>
+                  "Featured":true<br>
                 </code>
             <p><strong>Response status codes:</strong></p>
                 <p>201: OK- JSON object</p>
