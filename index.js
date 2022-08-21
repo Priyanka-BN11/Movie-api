@@ -13,6 +13,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
+
 //Database connection
 mongoose.connect('mongodb://localhost:27017/test', { 
   useNewUrlParser: true, 
@@ -20,6 +21,13 @@ mongoose.connect('mongodb://localhost:27017/test', {
 });
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+//importing cors
+const cors = require('cors');
+// Configure Allowed Domains for Cross-Origin Resource Sharing (CORS)
+// const allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+app.use(cors());
+//import check 
+const { check, validationResult } = require('express-validator');
 //importing auth.js after app.use(bodyParser)
 let auth = require('./auth')(app);
 //after importing auth, importing passport
@@ -94,11 +102,31 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req,res) => {
   });
   
   //allow users to register
-  app.post('/users',(req,res) =>{
+  app.post('/users', 
+    //validation logic here for request
+    //you can either use a chain of methods like .not().isEmpty()
+    //which means "opposite of isEmpty" in plain english "is not empty"
+    //or use .isLength({min: 5}) which means
+    //minimum value of 5 characters are only allowed
+    [
+      check('Username', 'Username is required').isLength({min:5}),
+      check('Username', 'Username contains non alphanumeric characters not allowed.').isAlphanumeric(),
+      check('Password', 'Password is required'). not().isEmpty(),
+      check('Email', 'Email does not appear to be valid').isEmail()
+    ],(req,res) => {
+      //check the validation object for errors
+      let errors = validationResult(req);
+      if(!errors.isEmpty()){
+        return res.status(422).json({errors: errors.array()});
+      }
+    //Hash any password entered by the user when registering before storing it in the MongoDB database
+    let hashedPassword = Users.hashPassword(req.body.Password);
+    //search to see if a user with the requested username already exists
     Users.findOne({Username: req.body.Username})
     
     .then((user) => {
       if(user) {
+        //if the uesr is found, send a response that it already exists
         return res.status(400).send(req.body.Username + 'already exists');
       }
       else{
@@ -210,4 +238,8 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req,res) => {
   app.listen(8080, () => {
     console.log('Your app is listening on port 8080.');
   });
- 
+ //heroku
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
+});
