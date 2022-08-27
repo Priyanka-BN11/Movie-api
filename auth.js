@@ -1,11 +1,8 @@
-// const express = require('express');
 //This has to be the same key used in the JWTStrategy
 const jwtSecret = 'your_jwt_secret';
 
 const jwt = require('jsonwebtoken'),
 passport = require('passport');
-//local passport file
-require('./passport');
 
 let generateJWTToken = (user) => {
     return jwt.sign(user, jwtSecret, {
@@ -14,6 +11,10 @@ let generateJWTToken = (user) => {
         algorithm: 'HS256', //This is the algorithm used to "sign" or encode the values of the JWT
     });
 }
+
+//local passport file
+require('./passport');
+
  //POST login
 module.exports = (router) => {
     router.post('/login', (req,res) => {

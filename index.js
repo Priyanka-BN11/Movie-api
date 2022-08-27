@@ -1,45 +1,52 @@
-//importing express and morgan
+//importing express, morgan, bodyParse, uuid, mongoose
 const express = require('express'),
 app = express(),
 morgan = require('morgan'),
 bodyParser = require('body-parser'),
- uuid = require('uuid');
- 
- //Mongoose and model imports
-const mongoose = require('mongoose');
+uuid = require('uuid'),
+mongoose = require('mongoose');
+
+//importing models
 const Models = require('./models.js');
+
 //importing Movie and User
 const Movies = Models.Movie;
 const Users = Models.User;
 const Genres = Models.Genre;
 const Directors = Models.Director;
+
 //import dotenv to support .env file contains environment variable
 require('dotenv').config();
+
+//importing cors
+const cors = require('cors');
+
+//importing check 
+const { check, validationResult } = require('express-validator');
+
+//importing auth.js after app.use(bodyParser)
+let auth = require('./auth')(app);
+
+//after importing auth, importing passport
+const passport = require('passport');
+
 //Database connection
-// mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-//importing cors
-const cors = require('cors');
-// Configure Allowed Domains for Cross-Origin Resource Sharing (CORS)
-// const allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+
 app.use(cors());
-//import check 
-const { check, validationResult } = require('express-validator');
-//importing auth.js after app.use(bodyParser)
-let auth = require('./auth')(app);
-//after importing auth, importing passport
-const passport = require('passport');
 require('./passport');
+
 //logging with morgan (middleware)
 app.use(morgan('common'));
+
 //displays users
 app.get('/users', passport.authenticate('jwt', {session: false}), (req,res) => {
   Users.find()
-  
   .then((users) => {
-    res.status(201).json(users);
+    res.status(200).json(users);
   })
   .catch((err) => {
     console.error(err);
@@ -55,17 +62,19 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req,res) => {
   app.get('/documentation', (req, res) => {                  
     res.sendFile('public/documentation.html', { root: __dirname });
   });
-  //displays movies
+
+  //Displays movies
   app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.find()
     .then((movies) => {
-      res.status(201).json(movies);
+      res.status(200).json(movies);
     })
     .catch((err) => {
       console.error(err);
       res.status(500).send("Error:" + err);
     });
   });
+
   //Displays movie by moviename
   app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, res) => {
    Movies.findOne({Title: req.params.Title})
@@ -77,6 +86,7 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req,res) => {
       res.status(500).send('Error:' +err);
     });
   });
+
   //Displays genre description by genre name
   app.get('/movies/genre/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({'Genre.Name': req.params.Name})
@@ -88,7 +98,8 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req,res) => {
       res.status(500).send('Error:' +err);
     });
   });
-  //displays director info using director name
+
+  //Displays director info using director name
   app.get('/movies/director/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
     Movies.findOne({"Director.Name": req.params.Name})
     .then ((movies) => {
@@ -118,8 +129,10 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req,res) => {
       if(!errors.isEmpty()){
         return res.status(422).json({errors: errors.array()});
       }
+
     //Hash any password entered by the user when registering before storing it in the MongoDB database
     let hashedPassword = Users.hashPassword(req.body.Password);
+    
     //search to see if a user with the requested username already exists
     Users.findOne({Username: req.body.Username})
     
@@ -136,7 +149,7 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req,res) => {
           Birthday: req.body.Birthday,
         })
         .then ((user) => {
-          res.status(201).json(user);
+          res.status(200).json(user);
         })
         .catch((error) => {
           console.error(error);
@@ -171,12 +184,14 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req,res) => {
 });
   //update user info
   app.put('/users/:Username', passport.authenticate('jwt', {session: false}), (req, res) => {
+    //Hash any password entered by the user when registering before storing it in the MongoDB database
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOneAndUpdate(
       {Username: req.params.Username},
       {
         $set: {
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: hashedPassword,
           Email: req.body.Email,
           Birthday:req.body.Birthday,
         },
