@@ -1,4 +1,0 @@
-mongoimport --uri mongodb+srv://priya_11:Priyapj-11@cluster0.fc2vuqt.mongodb.net/movieapp --collection movies --type json --file ../exported_collections/movies.json
-
-mongo "mongodb+srv://cluster0.fc2vuqt.mongodb.net/movieapp" --username priya_11
-'mongodb+srv://priya_11:Priyapj-11@cluster0.fc2vuqt.mongodb.net/movieapp?retryWrites=true&w=majority
