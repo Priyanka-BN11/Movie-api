@@ -43,8 +43,7 @@ require('./passport');
 app.use(morgan('common'));
 
 //displays users
-app.get('/users', (req,res) => {
-// app.get('/users', passport.authenticate('jwt', {session: false}), (req,res) => {
+ app.get('/users', passport.authenticate('jwt', {session: false}), (req,res) => {
   Users.find()
   .then((users) => {
     res.status(200).json(users);
@@ -65,12 +64,12 @@ app.get('/users', (req,res) => {
   });
 
   //Displays movies
-  app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
+  app.get('/movies', function (req, res) {
     Movies.find()
-    .then((movies) => {
+    .then(function(movies) {
       res.status(200).json(movies);
     })
-    .catch((err) => {
+    .catch(function(err) {
       console.error(err);
       res.status(500).send("Error:" + err);
     });
