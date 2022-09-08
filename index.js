@@ -265,7 +265,7 @@ app.use(morgan('common'));
 //     return callback(null, true);
 //   }
 // }))
-const allowedOrigins = ['http://localhost:1234/'];
+const allowedOrigins = ['http://localhost:1234'];
 const options= cors.CorsOptions={
   origin: allowedOrigins
 };
