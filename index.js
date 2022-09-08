@@ -37,18 +37,23 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 // app.use(cors());
-const allowedOrigins = ["http://localhost:1234", "http://localhost:8080"];
+// const allowedOrigins = ["http://localhost:1234", "http://localhost:8080"];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-      const message = 'The CORS policy for this application does not allow access from origin ' + origin;
-      return callback(new Error(message ), false);
-    }
-    return callback(null, true);
-  }
-}))
+// app.use(cors({
+//   origin: (origin, callback) => {
+//     if(!origin) return callback(null, true);
+//     if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+//       const message = 'The CORS policy for this application does not allow access from origin ' + origin;
+//       return callback(new Error(message ), false);
+//     }
+//     return callback(null, true);
+//   }
+// }))
+const allowedOrigins = ['http://localhost:1234'];
+const options= cors.CorsOptions={
+  origin: allowedOrigins
+};
+app.use(cors(options));
 require('./passport');
 
 //logging with morgan (middleware)
@@ -266,11 +271,7 @@ app.use(morgan('common'));
   });
   
  
-// const allowedOrigins = ['http://localhost:1234'];
-// const options= cors.CorsOptions={
-//   origin: allowedOrigins
-// };
-// app.use(cors(options));
+
  //heroku
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
