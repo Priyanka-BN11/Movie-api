@@ -34,7 +34,7 @@ const passport = require('passport');
 //mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 try {
   mongoose.connect(
-      "mongodb+srv://priya_11:Priyapj-11@cluster0.fc2vuqt.mongodb.net/movieapp?retryWrites=true&w=majority",
+      process.env.CONNECTION_URI,
       {
           useNewUrlParser: true,
           useUnifiedTopology: true,
@@ -47,20 +47,6 @@ try {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-
-// app.use(cors());
-// const allowedOrigins = ["http://localhost:1234", "http://localhost:8080"];
-
-// app.use(cors({
-//   origin: (origin, callback) => {
-//     if(!origin) return callback(null, true);
-//     if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-//       const message = 'The CORS policy for this application does not allow access from origin ' + origin;
-//       return callback(new Error(message ), false);
-//     }
-//     return callback(null, true);
-//   }
-// }))
 const allowedOrigins = ['http://localhost:1234/'];
 const options= cors.CorsOptions={
   origin: allowedOrigins
@@ -93,7 +79,7 @@ app.use(morgan('common'));
   });
 
   //Displays movies
-  app.get('/movies', function (req, res) {
+  app.get('/movies',passport.authenticate('jwt', {session: false}), function (req, res) {
     Movies.find( { item : { $type: 10 } } )
     .then(function(movies) {
       console.log(movies,"movies from db")
