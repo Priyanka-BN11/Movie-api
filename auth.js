@@ -18,6 +18,7 @@ require('./passport');
  //POST login
 module.exports = (router) => {
     router.post('/login', (req,res) => {
+        console.log(req.params,"params")
         passport.authenticate('local', { session: false}, (error, user,info) => {
            console.log(user,"user")
            

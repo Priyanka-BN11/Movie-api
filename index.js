@@ -31,7 +31,19 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 
 //Database connection
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+try {
+  mongoose.connect(
+      "mongodb+srv://priya_11:Priyapj-11@cluster0.fc2vuqt.mongodb.net/movieapp?retryWrites=true&w=majority",
+      {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+      }
+  );
+} catch {
+  console.error("Failed to connect to mongo db");
+
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -82,8 +94,9 @@ app.use(morgan('common'));
 
   //Displays movies
   app.get('/movies', function (req, res) {
-    Movies.find()
+    Movies.find( { item : { $type: 10 } } )
     .then(function(movies) {
+      console.log(movies,"movies from db")
       res.status(200).json(movies);
     })
     .catch(function(err) {

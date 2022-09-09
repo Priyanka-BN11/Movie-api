@@ -31,7 +31,7 @@ userSchema.statics.hashPassword = (password) => {
 
 //Validating password
 userSchema.methods.validatePassword = function(password) {
-//    console.log(password, this.password);
+    console.log(password, this.password,"not valid");
     return bcrypt.compareSync(password, this.Password);
 }
 
