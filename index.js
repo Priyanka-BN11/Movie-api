@@ -31,7 +31,7 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 
 //Database connection
-//mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect( 'mongodb+srv://priya_11:Priyapj-11@cluster0.fc2vuqt.mongodb.net/movieapp?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 try {
   mongoose.connect(
       process.env.CONNECTION_URI,
