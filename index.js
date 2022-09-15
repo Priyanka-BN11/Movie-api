@@ -173,6 +173,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
           Password: hashedPassword,
           Email: req.body.Email,
           Birthday: req.body.Birthday,
+          FavoriteMovies: req.body.FavoriteMovies
         })
         .then ((user) => {
           res.status(200).json(user);
