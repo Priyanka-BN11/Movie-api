@@ -20,6 +20,12 @@ require('dotenv').config();
 
 //importing cors
 const cors = require('cors');
+const allowedOrigins = ['http://localhost:1234','https://priyamovieapp.netlify.app'];
+const options= cors.CorsOptions={
+  origin: allowedOrigins
+};
+app.use(cors(options));
+require('./passport');
 
 //importing check 
 const { check, validationResult } = require('express-validator');
@@ -46,13 +52,6 @@ try {
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
-const allowedOrigins = ['http://localhost:1234','https://priyamovieapp.netlify.app'];
-const options= cors.CorsOptions={
-  origin: allowedOrigins
-};
-app.use(cors(options));
-require('./passport');
 
 //logging with morgan (middleware)
 app.use(morgan('common'));
