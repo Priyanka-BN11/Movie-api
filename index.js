@@ -20,7 +20,7 @@ require('dotenv').config();
 
 //importing cors
 const cors = require('cors');
-const allowedOrigins = ['http://localhost:1234','https://priyamovieapp.netlify.app','*', 'http://localhost:4200/'];
+const allowedOrigins = ['http://localhost:1234','https://priyamovieapp.netlify.app','*', 'http://localhost:4200'];
 const options= cors.CorsOptions={
   origin: allowedOrigins
 };
