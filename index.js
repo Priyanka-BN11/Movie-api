@@ -30,6 +30,9 @@ require('./passport');
 //importing check 
 const { check, validationResult } = require('express-validator');
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
 //importing auth.js after app.use(bodyParser)
 let auth = require('./auth')(app);
 
@@ -50,8 +53,6 @@ try {
   console.error("Failed to connect to mongo db");
 
 }
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
 
 //logging with morgan (middleware)
 app.use(morgan('common'));
