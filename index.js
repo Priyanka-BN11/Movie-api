@@ -20,7 +20,7 @@ require('dotenv').config();
 
 //importing cors
 const cors = require('cors');
-const allowedOrigins = ['http://localhost:1234','https://priyamovieapp.netlify.app','*', 'http://localhost:4200'];
+const allowedOrigins = ['http://localhost:1234','https://priyamovieapp.netlify.app','*', 'http://localhost:4200', 'https://priyanka-bn11.github.io/myFlix-Angular-client/'];
 const options= cors.CorsOptions={
   origin: allowedOrigins
 };
